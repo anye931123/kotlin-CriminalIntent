@@ -11,14 +11,14 @@ object CrimeLab {
     init{
         for(i in 0 until  100){
             var crime=Crime()
-            crime.mTitle="Crime #"+i
+            crime.mTitle= "Crime #$i"
             crime.mSolved=(i%2==0)
             mCrimes.add(crime)
         }
     }
     fun getCrime(id:UUID):Crime?{
         for (crime:Crime in mCrimes){
-            if(crime.mId.equals(id)){
+            if(crime.mId == id){
                 return crime
             }
         }

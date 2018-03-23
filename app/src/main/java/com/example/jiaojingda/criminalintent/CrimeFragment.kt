@@ -12,6 +12,7 @@ import android.widget.CompoundButton
 import android.widget.Toast
 
 import kotlinx.android.synthetic.main.fragment_crime.*
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -22,7 +23,8 @@ class CrimeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mCrime= Crime()
+        val crimeId:UUID= activity.intent.getSerializableExtra(MainActivity.EXTRA_CRIME_ID) as UUID
+        mCrime= CrimeLab.getCrime(crimeId)!!
     }
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -31,6 +33,9 @@ class CrimeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        crime_title.hint=mCrime.mTitle
+        crime_date.text=mCrime.mDate.toString()
+        crime_solved.isChecked=mCrime.mSolved
         crime_title?.addTextChangedListener(object :TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -45,13 +50,7 @@ class CrimeFragment : Fragment() {
         })
         crime_date?.text=mCrime.mDate.toString()
         crime_date?.isEnabled=false
-        crime_solved?.setOnCheckedChangeListener(object :CompoundButton.OnCheckedChangeListener{
-            override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
-                mCrime.mSolved=p1
-                Toast.makeText(activity,"HAHAH",Toast.LENGTH_SHORT).show()
-            }
-
-        })
+        crime_solved?.setOnCheckedChangeListener { _, p1 -> mCrime.mSolved=p1 }
     }
 
 }// Required empty public constructor

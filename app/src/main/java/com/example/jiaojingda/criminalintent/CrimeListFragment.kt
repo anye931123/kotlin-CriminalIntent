@@ -59,19 +59,14 @@ class CrimeListFragment : Fragment() {
         val mSolvedImage=itemView.find<ImageView>(R.id.crime_solved)
 
 
-        private fun startMainActivity(){
-            val intent=Intent(activity,MainActivity::class.java)
 
-            startActivity(intent)
-
-        }
 
 
         fun bind(crime: Crime) {
             mTitleText.text = crime.mTitle
             mDateText.text = crime.mDate.toString()
             mSolvedImage.visibility=if(crime.mSolved) View.VISIBLE else View.GONE
-            itemView.setOnClickListener {startMainActivity() }
+            itemView.setOnClickListener { startActivity(MainActivity.newIntent(activity,crime.mId)) }
         }
 
 
